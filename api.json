@@ -6,14 +6,125 @@
     },
     "servers": [
         {
-            "url": "http:\/\/localhost\/api"
+            "url": "http:\/\/13.250.112.251\/api"
         }
     ],
     "paths": {
+        "\/v1\/auth\/register": {
+            "post": {
+                "operationId": "auth.register",
+                "summary": "Registers a new user with name, mobile number, and optional email",
+                "tags": [
+                    "Register"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart\/form-data": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User successfully registered"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "access_token"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/auth\/login": {
+            "get": {
+                "operationId": "auth.login",
+                "summary": "Handles user login by verifying mobile number and OTP",
+                "tags": [
+                    "Login"
+                ],
+                "parameters": [
+                    {
+                        "name": "mobile",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "otp",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 4,
+                            "default" : "1234",
+                            "maxLength": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successfully"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "access_token"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
         "\/v1\/chatrooms\/create": {
             "post": {
                 "operationId": "chatrooms.create",
-                "summary": "Handle the incoming request",
+                "summary": "Creates a new chatroom",
                 "tags": [
                     "ChatroomCreate"
                 ],
@@ -62,7 +173,7 @@
         "\/v1\/chatrooms\/enter\/{chatroomId}": {
             "get": {
                 "operationId": "chatrooms.enter",
-                "summary": "Handle the incoming request",
+                "summary": "Enters an existing chatroom by ID",
                 "tags": [
                     "ChatroomEnter"
                 ],
@@ -142,7 +253,7 @@
         "\/v1\/chatrooms": {
             "get": {
                 "operationId": "chatrooms.index",
-                "summary": "Handle the incoming request",
+                "summary": "Retrieves a list of all chatrooms",
                 "tags": [
                     "ChatroomIndex"
                 ],
@@ -177,7 +288,7 @@
         "\/v1\/chatrooms\/leave\/{chatroomId}": {
             "get": {
                 "operationId": "chatrooms.leave",
-                "summary": "Handle the incoming request",
+                "summary": "Leaves a specified chatroom by ID",
                 "tags": [
                     "ChatroomLeave"
                 ],
@@ -224,7 +335,7 @@
         "\/v1\/chatrooms\/update\/{chatroomId}": {
             "patch": {
                 "operationId": "chatrooms.update",
-                "summary": "Handle the incoming request",
+                "summary": "Updates details of an existing chatroom",
                 "tags": [
                     "ChatroomUpdate"
                 ],
@@ -280,160 +391,6 @@
                 }
             }
         },
-        "\/v1\/auth\/login": {
-            "get": {
-                "operationId": "auth.login",
-                "summary": "Handle the incoming request",
-                "tags": [
-                    "Login"
-                ],
-                "parameters": [
-                    {
-                        "name": "mobile",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "otp",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "minLength": 4,
-                            "maxLength": 4
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Login successfully"
-                                        },
-                                        "access_token": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "message",
-                                        "access_token"
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
-                    }
-                }
-            }
-        },
-        "\/v1\/messages\/{chatroomId}": {
-            "get": {
-                "operationId": "messages.index",
-                "tags": [
-                    "MessageIndex"
-                ],
-                "parameters": [
-                    {
-                        "name": "chatroomId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Array of `MessageResource`",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#\/components\/schemas\/MessageResource"
-                                            }
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#\/components\/responses\/AuthenticationException"
-                    }
-                }
-            }
-        },
-        "\/v1\/auth\/register": {
-            "post": {
-                "operationId": "auth.register",
-                "summary": "Handle the incoming request",
-                "tags": [
-                    "Register"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart\/form-data": {
-                            "schema": {
-                                "$ref": "#\/components\/schemas\/RegisterRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "User successfully registered"
-                                        },
-                                        "access_token": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "message",
-                                        "access_token"
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
-                    }
-                }
-            }
-        },
         "\/v1\/messages\/send": {
             "post": {
                 "operationId": "messages.send",
@@ -478,6 +435,50 @@
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/messages\/{chatroomId}": {
+            "get": {
+                "operationId": "Retrieves a list of messages by chatroom ID",
+                "tags": [
+                    "MessageIndex"
+                ],
+                "parameters": [
+                    {
+                        "name": "chatroomId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array of `MessageResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/MessageResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
                 }
             }
