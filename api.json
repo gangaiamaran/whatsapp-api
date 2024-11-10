@@ -182,6 +182,11 @@
                 "tags": [
                     "ChatroomEnter"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "chatroomId",
@@ -262,6 +267,11 @@
                 "tags": [
                     "ChatroomIndex"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Array of `ChatroomResource`",
@@ -296,6 +306,11 @@
                 "summary": "Leaves a specified chatroom by ID",
                 "tags": [
                     "ChatroomLeave"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "parameters": [
                     {
@@ -343,6 +358,11 @@
                 "summary": "Updates details of an existing chatroom",
                 "tags": [
                     "ChatroomUpdate"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "parameters": [
                     {
@@ -402,6 +422,11 @@
                 "tags": [
                     "SendMessage"
                 ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -449,6 +474,11 @@
                 "operationId": "Retrieves a list of messages by chatroom ID",
                 "tags": [
                     "MessageIndex"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "parameters": [
                     {
