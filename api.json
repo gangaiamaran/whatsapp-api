@@ -10,7 +10,7 @@
         }
     ],
     "paths": {
-        "\/v1\/auth\/register": {
+        "\/api\/v1\/auth\/register": {
             "post": {
                 "operationId": "auth.register",
                 "summary": "Registers a new user with name, mobile number, and optional email",
@@ -60,7 +60,7 @@
                 }
             }
         },
-        "\/v1\/auth\/login": {
+        "\/api\/v1\/auth\/login": {
             "get": {
                 "operationId": "auth.login",
                 "summary": "Handles user login by verifying mobile number and OTP",
@@ -121,12 +121,17 @@
                 }
             }
         },
-        "\/v1\/chatrooms\/create": {
+        "\/api\/v1\/chatrooms\/create": {
             "post": {
                 "operationId": "chatrooms.create",
                 "summary": "Creates a new chatroom",
                 "tags": [
                     "ChatroomCreate"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
                 ],
                 "requestBody": {
                     "required": true,
@@ -170,7 +175,7 @@
                 }
             }
         },
-        "\/v1\/chatrooms\/enter\/{chatroomId}": {
+        "\/api\/v1\/chatrooms\/enter\/{chatroomId}": {
             "get": {
                 "operationId": "chatrooms.enter",
                 "summary": "Enters an existing chatroom by ID",
@@ -250,7 +255,7 @@
                 }
             }
         },
-        "\/v1\/chatrooms": {
+        "\/api\/v1\/chatrooms": {
             "get": {
                 "operationId": "chatrooms.index",
                 "summary": "Retrieves a list of all chatrooms",
@@ -285,7 +290,7 @@
                 }
             }
         },
-        "\/v1\/chatrooms\/leave\/{chatroomId}": {
+        "\/api\/v1\/chatrooms\/leave\/{chatroomId}": {
             "get": {
                 "operationId": "chatrooms.leave",
                 "summary": "Leaves a specified chatroom by ID",
@@ -332,7 +337,7 @@
                 }
             }
         },
-        "\/v1\/chatrooms\/update\/{chatroomId}": {
+        "\/api\/v1\/chatrooms\/update\/{chatroomId}": {
             "patch": {
                 "operationId": "chatrooms.update",
                 "summary": "Updates details of an existing chatroom",
@@ -391,7 +396,7 @@
                 }
             }
         },
-        "\/v1\/messages\/send": {
+        "\/api\/v1\/messages\/send": {
             "post": {
                 "operationId": "messages.send",
                 "tags": [
@@ -439,7 +444,7 @@
                 }
             }
         },
-        "\/v1\/messages\/{chatroomId}": {
+        "\/api\/v1\/messages\/{chatroomId}": {
             "get": {
                 "operationId": "Retrieves a list of messages by chatroom ID",
                 "tags": [
@@ -485,6 +490,18 @@
         }
     },
     "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization"
+            }
+        },
+        "security": [
+            {
+                "BearerAuth": []
+            }
+        ],
         "schemas": {
             "ChatroomCreateRequest": {
                 "type": "object",
