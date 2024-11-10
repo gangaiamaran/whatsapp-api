@@ -1,0 +1,776 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Whatsapp API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http:\/\/localhost\/api"
+        }
+    ],
+    "paths": {
+        "\/v1\/chatrooms\/create": {
+            "post": {
+                "operationId": "chatrooms.create",
+                "summary": "Handle the incoming request",
+                "tags": [
+                    "ChatroomCreate"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart\/form-data": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/ChatroomCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Chatroom created successfully."
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/chatrooms\/enter\/{chatroomId}": {
+            "get": {
+                "operationId": "chatrooms.enter",
+                "summary": "Handle the incoming request",
+                "tags": [
+                    "ChatroomEnter"
+                ],
+                "parameters": [
+                    {
+                        "name": "chatroomId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Chatroom entered successfully"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "An error",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "description": "Error overview.",
+                                                    "example": "Duplicate chatroom entry"
+                                                }
+                                            },
+                                            "required": [
+                                                "message"
+                                            ]
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "description": "Error overview.",
+                                                    "example": "Chatroom reached max users limit"
+                                                }
+                                            },
+                                            "required": [
+                                                "message"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/chatrooms": {
+            "get": {
+                "operationId": "chatrooms.index",
+                "summary": "Handle the incoming request",
+                "tags": [
+                    "ChatroomIndex"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array of `ChatroomResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/ChatroomResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/chatrooms\/leave\/{chatroomId}": {
+            "get": {
+                "operationId": "chatrooms.leave",
+                "summary": "Handle the incoming request",
+                "tags": [
+                    "ChatroomLeave"
+                ],
+                "parameters": [
+                    {
+                        "name": "chatroomId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "description": "An error",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error overview.",
+                                            "example": "Chatroom user not found."
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/chatrooms\/update\/{chatroomId}": {
+            "patch": {
+                "operationId": "chatrooms.update",
+                "summary": "Handle the incoming request",
+                "tags": [
+                    "ChatroomUpdate"
+                ],
+                "parameters": [
+                    {
+                        "name": "chatroomId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart\/form-data": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/ChatroomUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Chatroom updated successfully."
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/auth\/login": {
+            "get": {
+                "operationId": "auth.login",
+                "summary": "Handle the incoming request",
+                "tags": [
+                    "Login"
+                ],
+                "parameters": [
+                    {
+                        "name": "mobile",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "otp",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 4,
+                            "maxLength": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successfully"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "access_token"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/messages\/{chatroomId}": {
+            "get": {
+                "operationId": "messages.index",
+                "tags": [
+                    "MessageIndex"
+                ],
+                "parameters": [
+                    {
+                        "name": "chatroomId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array of `MessageResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/MessageResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/auth\/register": {
+            "post": {
+                "operationId": "auth.register",
+                "summary": "Handle the incoming request",
+                "tags": [
+                    "Register"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart\/form-data": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User successfully registered"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message",
+                                        "access_token"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/messages\/send": {
+            "post": {
+                "operationId": "messages.send",
+                "tags": [
+                    "SendMessage"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart\/form-data": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/SendMessageRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Message sent successfully"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ChatroomCreateRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "description": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 2000
+                    },
+                    "icon": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "binary",
+                        "contentMediaType": "application\/octet-stream",
+                        "maxLength": 2048
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "title": "ChatroomCreateRequest"
+            },
+            "ChatroomResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "description": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "icon": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "slug",
+                    "name",
+                    "description",
+                    "icon",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "ChatroomResource"
+            },
+            "ChatroomUpdateRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "description": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 2000
+                    },
+                    "icon": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "binary",
+                        "contentMediaType": "application\/octet-stream",
+                        "maxLength": 2048
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "title": "ChatroomUpdateRequest"
+            },
+            "MessageResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "string"
+                    },
+                    "chatroom_id": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "user_id",
+                    "chatroom_id",
+                    "content",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "MessageResource"
+            },
+            "RegisterRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "mobile": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "email",
+                        "maxLength": 255
+                    },
+                    "profile_image": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "binary",
+                        "contentMediaType": "application\/octet-stream",
+                        "maxLength": 2048
+                    }
+                },
+                "required": [
+                    "name",
+                    "mobile"
+                ],
+                "title": "RegisterRequest"
+            },
+            "SendMessageRequest": {
+                "type": "object",
+                "properties": {
+                    "chatroom_id": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string",
+                        "maxLength": 2048
+                    },
+                    "attachments": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "items": {
+                            "type": "string",
+                            "format": "binary",
+                            "contentMediaType": "application\/octet-stream"
+                        }
+                    }
+                },
+                "required": [
+                    "chatroom_id",
+                    "content"
+                ],
+                "title": "SendMessageRequest"
+            }
+        },
+        "responses": {
+            "ValidationException": {
+                "description": "Validation error",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Errors overview."
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "description": "A detailed description of each field that failed validation.",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "message",
+                                "errors"
+                            ]
+                        }
+                    }
+                }
+            },
+            "AuthorizationException": {
+                "description": "Authorization error",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            },
+            "AuthenticationException": {
+                "description": "Unauthenticated",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
