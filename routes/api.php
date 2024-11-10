@@ -26,8 +26,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('messages')->name('messages.')->group(function () {
         Route::get('/{chatroomId}', App\Http\Controllers\V1\Messages\MessageIndexController::class)->name('index');
         Route::post('/send', App\Http\Controllers\V1\Messages\SendMessageController::class)->name('send');
-        //        Route::patch('/update/{id}', App\Http\Controllers\V1\Chatroom\ChatroomUpdateController::class)->name('update');
-        //        Route::get('/enter/{id}', App\Http\Controllers\V1\Chatroom\ChatroomEnterController::class)->name('enter');
-        //        Route::get('/leave/{id}', App\Http\Controllers\V1\Chatroom\ChatroomLeaveController::class)->name('leave');
     });
 });

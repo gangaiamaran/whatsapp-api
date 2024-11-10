@@ -175,6 +175,46 @@
                 }
             }
         },
+        "\/api\/v1\/chatrooms": {
+            "get": {
+                "operationId": "chatrooms.index",
+                "summary": "Retrieves a list of all chatrooms",
+                "tags": [
+                    "ChatroomIndex"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array of `ChatroomResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/ChatroomResource"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
         "\/api\/v1\/chatrooms\/enter\/{chatroomId}": {
             "get": {
                 "operationId": "chatrooms.enter",
@@ -249,46 +289,6 @@
                                                 "message"
                                             ]
                                         }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#\/components\/responses\/AuthenticationException"
-                    }
-                }
-            }
-        },
-        "\/api\/v1\/chatrooms": {
-            "get": {
-                "operationId": "chatrooms.index",
-                "summary": "Retrieves a list of all chatrooms",
-                "tags": [
-                    "ChatroomIndex"
-                ],
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Array of `ChatroomResource`",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#\/components\/schemas\/ChatroomResource"
-                                            }
-                                        }
-                                    },
-                                    "required": [
-                                        "data"
                                     ]
                                 }
                             }
